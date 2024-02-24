@@ -63,7 +63,7 @@ const createEmployee = () => {
                 break;
 
             case "Team Complete":
-                buildTeam();
+                createTeam();
         }
     })
 };
@@ -126,18 +126,12 @@ const createIntern = () => {
     })
 }
 
-// function to write README file
-function writeToFile(fileName, data) {
-    return fs.writeFileSync(path.join(process.cwd(), fileName), data)
-}
-
-// function to initialise questions
-function init() {
-    inquirer.prompt(createManager).then((responses) => {
-        console.log("Creating your team!");
-        writeToFile("./ouput/team.html", generateTeam({...responses}));
-    });
+const createTeam = () => {
+    if(!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdir(OUTPUT_DIR)
+    }
+    fs.writeFileSync(outputPath, generateTeam(devTeam), "utf-8")
 }
 
 // function call to initialise questions
-init();
+createManager();
