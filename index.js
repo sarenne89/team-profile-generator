@@ -5,17 +5,14 @@ const generateTeam = require("./src/page-template.js")
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-const devTeam = [];
+const team = [];
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./src/page-template.js");
-
-
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
-//questions to gather information on the team
-const createManager = () => {
+//questions to gather information on the manager before enterring employee creation options
+const generateManager = () => {
     return inquirer.prompt ([
         {
             type: "input",
@@ -39,12 +36,13 @@ const createManager = () => {
         }
     ]).then(answers  => {
     const manager = new Manager(answers.managerName, answers.managerID, answers.managerEmail, answers.managerOffice)
-    devTeam.push(manager)
-    createEmployee()
+    team.push(manager)
+    generateEmployee()
     })
 };
 
-const createEmployee = () => {
+//employee creation options, asks whether the user wants to add more employees or create the page
+const generateEmployee = () => {
     return inquirer.prompt ([
         {
             type: "list",
@@ -55,20 +53,21 @@ const createEmployee = () => {
     ]).then(userChoice => {
         switch(userChoice.menu) {
             case "Engineer":
-                createEngineer();
+                generateEngineer();
                 break;
                 
             case "Intern":
-                createIntern();
+                generateIntern();
                 break;
 
             case "Team Complete":
-                createTeam();
+                render();
         }
     })
 };
 
-const createEngineer = () => {
+//function to ask questions RE engineer details before returning to employee creation options
+const generateEngineer = () => {
     return inquirer.prompt ([
         {
             type: "input",
@@ -92,12 +91,13 @@ const createEngineer = () => {
         },
     ]).then(answers => {
         const engineer = new Engineer (answers.engineerName, answers.engineerID, answers.engineerEmail, answers.engineerGithub)
-        devTeam.push(engineer)
-        createEmployee()
+        team.push(engineer)
+        generateEmployee()
     })
 }
 
-const createIntern = () => {
+//function to ask questions RE details for the intern before returning to employee creation options
+const generateIntern = () => {
     return inquirer.prompt ([
         {
             type: "input",
@@ -121,17 +121,23 @@ const createIntern = () => {
         },
     ]).then(answers => {
         const intern = new Intern (answers.internName, answers.internID, answers.internEmail, answers.internSchool)
-        devTeam.push(intern)
-        createEmployee()
+        team.push(intern)
+        generateEmployee()
     })
 }
 
-const createTeam = () => {
+//function to create the page once the team details have been filled.
+//first checks whether the output directory exists before creating the output file
+const render = () => {
     if(!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdir(OUTPUT_DIR)
+        fs.mkdir(OUTPUT_DIR, (err) => {
+            if (err) {
+                throw err
+            }
+        })
     }
-    fs.writeFileSync(outputPath, generateTeam(devTeam), "utf-8")
+    fs.writeFileSync(outputPath, generateTeam(team), "utf-8")
 }
 
 // function call to initialise questions
-createManager();
+generateManager();
