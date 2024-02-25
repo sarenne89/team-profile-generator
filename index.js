@@ -137,6 +137,7 @@ const render = () => {
         })
     }
     fs.writeFileSync(outputPath, generateTeam(team), "utf-8")
+    console.log(`Creating your team! Check your "output" folder.`)
 }
 
 // function call to initialise questions
