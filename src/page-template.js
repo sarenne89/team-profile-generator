@@ -4,7 +4,7 @@ const generateTeam = team => {
     // creates the manager html
     const generateManager = manager => {
         return `
-        <div class="card employee-card mx-auto text-center shadow">
+        <div class="card employee-card mx-auto text-center shadow col-12 col-lg-3 p-0">
         <div class="card-header bg-warning">
             <h2 class="card-title">${manager.getName()}</h2>
             <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>${manager.getRole()}</h3>
@@ -23,7 +23,7 @@ const generateTeam = team => {
     // creates the html for engineers
     const generateEngineer = engineer => {
         return `
-        <div class="card employee-card mx-auto text-center shadow">
+        <div class="card employee-card mx-auto text-center shadow col-12 col-lg-3 p-0">
     <div class="card-header bg-warning">
         <h2 class="card-title">${engineer.getName()}</h2>
         <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>${engineer.getRole()}</h3>
@@ -42,7 +42,7 @@ const generateTeam = team => {
     // creates the html for interns
     const generateIntern = intern => {
         return `
-        <div class="card employee-card mx-auto text-center shadow">
+        <div class="card employee-card mx-auto text-center shadow col-12 col-lg-3 p-0">
     <div class="card-header bg-warning">
         <h2 class="card-title">${intern.getName()}</h2>
         <h3 class="card-title"><i class="fas fa-user-graduate mr-2"></i>${intern.getRole()}</h3>
@@ -107,7 +107,7 @@ module.exports = team => {
     </div>
     <div class="container">
         <div class="row">
-            <div class="team-area col-12 d-flex justify-content-center">
+            <div class="team-area col-12 d-flex justify-content-center flex-wrap">
                 ${generateTeam(team)}
             </div>
         </div>
